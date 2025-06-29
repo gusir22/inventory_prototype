@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 from django.core.validators import MinValueValidator
 
@@ -8,7 +9,7 @@ class Ingredient(models.Model):
     of current ingredient inventory."""
     name = models.CharField(max_length=100)
     unit = models.CharField(max_length=20, default="g")  # grams, liters, etc.
-    cost = models.DecimalField(max_digits=8, decimal_places=2)  # cost of ingredient single unit
+    cost = models.DecimalField(max_digits=8, decimal_places=3)  # cost of ingredient single unit
     quantity_in_stock = models.FloatField(
         validators=[
             MinValueValidator(0),  # no stock item below zero
@@ -27,6 +28,14 @@ class MenuItem(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def get_menu_item_cost(self):
+        total_cost = 0
+
+        for recipe_item in self.recipe_items.all():
+            total_cost += recipe_item.get_recipe_item_cost()
+
+        return total_cost
 
 class RecipeItem(models.Model):
     """This proxy model helps add ingredients in varying quantitites to Menu Items.
@@ -37,3 +46,6 @@ class RecipeItem(models.Model):
 
     def __str__(self):
         return f"{self.ingredient.name} for {self.menu_item.name}"
+    
+    def get_recipe_item_cost(self):
+        return self.ingredient.cost * Decimal(self.quantity_needed)

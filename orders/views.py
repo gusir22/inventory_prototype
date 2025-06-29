@@ -1,10 +1,12 @@
-from django.http import HttpResponse
+from django.db.models.query import QuerySet
 from django.shortcuts import get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView
+from django.utils.timezone import now
 from django.urls import reverse_lazy
 from .forms import CustomerOrderFormSet
 from .models import Order, OrderItem
+from .helpers import round_money
 
 from menu.models import MenuItem, Ingredient
 
@@ -36,3 +38,40 @@ class HomePageView(FormView):
 
 class OrderSuccessView(TemplateView):
     template_name = "orders/order_success.html"
+
+
+class TodaySalesReportView(ListView):
+    model = Order
+    template_name = "orders/today_sale_report.html"
+    context_object_name = "orders"
+
+    def get_queryset(self):
+        """Filters orders by today only"""
+        today = now().date()  # get todays date
+        return Order.objects.filter(created_at__date=today)  # filters by date
+    
+    def get_context_data(self, **kwargs):
+        """Calculates data context for report using filtered queryset"""
+        context = super().get_context_data(**kwargs)
+
+        # Access the filtered queryset
+        orders = self.get_queryset()
+
+        # calculate orders made
+        total_orders = len(orders)
+        context['total_orders'] = total_orders
+
+        # calculate revenue and cost
+        total_revenue = 0  # init empty rev total
+        total_cost = 0  # init empty cost total
+
+        for order in orders:
+            total_revenue += order.get_order_revenue()
+            total_cost += order.get_order_cost()
+
+        context['total_revenue'] = total_revenue
+        context['total_cost'] = round_money(total_cost)
+        context['total_profit'] = round_money(total_revenue - total_cost)  # calculate total profit
+        context['average_order_price'] = total_revenue / total_orders
+
+        return context

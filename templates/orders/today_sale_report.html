@@ -1,0 +1,60 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <h2>Sales Report for {{ today }}</h2>
+
+    <!-- Key Metrics-->
+    <div class="metrics-summary">
+        <h3>Key Metrics</h3>
+        <p>Total Orders: {{ total_orders }}</p>
+        <p>Total Revenue: ${{ total_revenue }}</p>
+        <p>Total Cost: ${{ total_cost }}</p>
+        <p>Total Profit: ${{ total_profit }}</p>
+        <p>Average Order Value: ${{ average_order_price }}</p>
+    </div>
+
+    <div class="todays-orders">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Order Items</th>
+                    <th>Order Revenue</th>
+                    <th>Order Cost</th>
+                    <th>Order Profit</th>
+                    <th>Time Ordered</th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                {% for order in orders %}
+                    <tr>
+                        <th>#{{ forloop.counter }}</th>
+                        <th>
+                            <ul>
+                                {% for menu_item in order.orderitems.all %}
+                                    <li>{{menu_item.menu_item}} X {{menu_item.quantity}}</li>
+                                {% endfor %}
+                            </ul>
+                        </th>
+                        <th>${{order.get_order_revenue}}</th>
+                        <th>${{order.get_order_cost}}</th>
+                        <th>${{order.get_order_profit}}</th>
+                        <th>{{order.created_at|date:"g:i A"}}</th>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <th>-</th>
+                        <th>-</th>
+                        <th>-</th>
+                        <th>-</th>
+                        <th>-</th>
+                        <th>-</th>
+                    </tr>
+                {% endfor %}
+                
+            </tbody>
+        </table>
+    </div>
+
+{% endblock content %}
