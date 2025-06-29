@@ -31,7 +31,7 @@ class MenuItem(models.Model):
 class RecipeItem(models.Model):
     """This proxy model helps add ingredients in varying quantitites to Menu Items.
     For exammple a Burger needing 3 tomatoes per serving."""
-    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE)
+    menu_item = models.ForeignKey(MenuItem, on_delete=models.CASCADE, related_name="recipe_items")
     ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
     quantity_needed = models.FloatField()  # quantity of ingredient needed per menu item
 
