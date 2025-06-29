@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 
-# Create your views here.
+from .models import Ingredient
+
+
+class IngredientListView(ListView):
+    model = Ingredient
+    template_name = "menu/inventory_list.html"
+    context_object_name = "ingredients"

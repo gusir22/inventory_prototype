@@ -1,0 +1,28 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <h2>Inventory List</h2>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Item Name</th>
+                <th>Quantity</th>
+                <th>Unit Type</th>
+                <th>Cost/Unit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ingredient in ingredients %}
+                <tr>
+                    <th>{{ forloop.counter }}</th>
+                    <th>{{ ingredient.name }}</th>
+                    <th>{{ ingredient.quantity_in_stock }}</th>
+                    <th>{{ ingredient.unit }}</th>
+                    <th>{{ ingredient.cost }}</th>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock content %}
