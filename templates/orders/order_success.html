@@ -1,0 +1,11 @@
+{% extends '_base.html' %}
+
+{% block content %}
+    <main>
+        <h1>Thank you for your order!</h1>
+        
+        <form action="{% url 'home' %}">
+            <button type="submit">Go Home</button>
+        </form>
+    </main>
+{% endblock content %}

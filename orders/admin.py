@@ -5,7 +5,7 @@ from .models import Order, OrderItem
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
-    extra = 2
+    extra = 6
     autocomplete_fields = [
         "menu_item",
     ]

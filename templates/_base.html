@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="utf-8">
+        <title>{% block title %}The Daily Bite{% endblock title %}</title>
+        <link rel="stylesheet" href="#">
+    </head>
+    <body>
+        <header>
+            <h1>The Daily Bite</h1>
+            <hr>
+            {% include 'navbar.html' %}
+        </header>
+        {% block content %}
+        {% endblock content %}
+    </body>
+    <footer>
+        <hr>
+        &copy; 2025 Broward College
+    </footer>
+</html>
