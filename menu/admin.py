@@ -7,6 +7,7 @@ from . models import (
 )
 
 
+@admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     list_display = [
         "name",
@@ -15,22 +16,28 @@ class IngredientAdmin(admin.ModelAdmin):
         "cost",
     ]
 
+    search_fields = [
+        "name",
+    ]
 
-admin.site.register(Ingredient, IngredientAdmin)
 
+class RecipeItemInline(admin.TabularInline):
+    model = RecipeItem
+    extra = 3
+    autocomplete_fields = [
+        "ingredient"
+    ]
+
+
+@admin.register(MenuItem)
 class MenuItemAdmin(admin.ModelAdmin):
     list_display = [
         "name",
         "price",
     ]
 
+    inlines = [RecipeItemInline]
 
-admin.site.register(MenuItem, MenuItemAdmin)
-
-class RecipeItemAdmin(admin.ModelAdmin):
-    list_display = [
-        "__str__",
+    search_fields = [
+        "name",
     ]
-
-
-admin.site.register(RecipeItem, RecipeItemAdmin)
