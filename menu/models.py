@@ -36,6 +36,9 @@ class MenuItem(models.Model):
             total_cost += recipe_item.get_recipe_item_cost()
 
         return total_cost
+    
+    def get_menu_item_profit(self):
+        return self.price - self.get_menu_item_cost()
 
 class RecipeItem(models.Model):
     """This proxy model helps add ingredients in varying quantitites to Menu Items.
