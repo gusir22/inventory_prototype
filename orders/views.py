@@ -116,8 +116,8 @@ class TodaySalesReportView(ListView):
         order_hours = [order.created_at.hour for order in orders]
         order_hour_counts = Counter(order_hours)
 
-        # Restaurant open-close range (e.g., 9 AM to 9 PM)
-        hour_range = range(9, 22)  # 9 to 21 inclusive
+        # Restaurant open-close range (e.g., 11 AM to 9 PM)
+        hour_range = range(11, 22)  # 11 to 21 inclusive
 
         hour_labels = [f"{h}:00" for h in hour_range]
         hour_data = [order_hour_counts.get(h, 0) for h in hour_range]  # get sales count by hour
