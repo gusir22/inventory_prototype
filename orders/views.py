@@ -21,19 +21,33 @@ class HomePageView(FormView):
     def form_valid(self, formset):
         # cycle through all menu items and check their IgredientItems to update the Ingredient's quantity_in_stock variable
 
+        order = Order.objects.create()  # create order
+
         for form in formset:
+
+            # get form field values from the request
             menu_item_name = form.cleaned_data.get('menu_item')
             quantity_ordered = form.cleaned_data.get('quantity')
 
+            # if no menu item was chosen, the field is discarted and we move on to next
+            # iteration of the form-forset loop
             if not menu_item_name:
                 continue
-
+            
+            # Get MenuItem instance chosen by menu_item_name value
             menu_item = get_object_or_404(MenuItem, name=menu_item_name)
 
+            # Cycle through all ingredients in the MenuItem instance to deduct ingredient from inventory
             for recipe_item in menu_item.recipe_items.all():
-                ingredient = get_object_or_404(Ingredient, name=recipe_item.ingredient)
-                ingredient.quantity_in_stock -= recipe_item.quantity_needed * quantity_ordered
-                ingredient.save()  
+                ingredient = get_object_or_404(Ingredient, name=recipe_item.ingredient)  # access the Ingredient instance
+                ingredient.quantity_in_stock -= recipe_item.quantity_needed * quantity_ordered  # update inventory amount
+                ingredient.save()  # save new inventory amount
+
+            OrderItem.objects.create(
+                order=order, 
+                menu_item=menu_item, 
+                quantity=quantity_ordered
+            )  # create order item
 
         return super().form_valid(formset)
 
