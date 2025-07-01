@@ -1,0 +1,16 @@
+{% extends "_base.html" %}
+
+{% block content %}
+    <h2>Menu</h2>
+
+    {% for menu_item in menu_items %}
+        <div>
+            <h4>{{ menu_item.name }}</h4>
+            <ul>
+                {% for item in menu_item.recipe_items.all %}
+                    <li>{{ item.ingredient.name }} ({{ item.quantity_needed }} {{ item.ingredient.unit }})</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+{% endblock content %}
