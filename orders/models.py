@@ -4,7 +4,7 @@ from menu.models import MenuItem
 
 
 class Order(models.Model):
-    created_at = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
     menu_items = models.ManyToManyField(MenuItem, through='OrderItem')
 
     def __str__(self):
