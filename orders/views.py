@@ -14,8 +14,8 @@ from .helpers import round_money
 from menu.models import MenuItem, Ingredient
 
 
-class HomePageView(FormView):
-    template_name = "home.html"
+class PlaceOrderView(FormView):
+    template_name = "orders/place_order.html"
     success_url = reverse_lazy('order_success')
     form_class = CustomerOrderFormSet  # We'll override get_form
 

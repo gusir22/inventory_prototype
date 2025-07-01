@@ -1,13 +1,33 @@
-{% extends '_base.html' %}
+{% extends "_base.html" %}
 
 {% block content %}
-    <main>
-        <h2>Place an order!</h1>
-        
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit Order</button>
-        </form>
-    </main>
+    <section class="welcome-section" style="max-width: 800px; margin: auto; padding: 2rem;">
+        <h1>Welcome to the Restaurant Sales & Inventory Demo</h1>
+        <p>
+            This demo showcases how <strong>Django</strong> can serve as a powerful backend platform for building a real-world
+            <strong>inventory and sales reporting system</strong>—perfect for a <strong>small restaurant, food stand, or movie theater</strong>.
+        </p>
+        <p>
+            The system tracks:
+        </p>
+        <ul>
+            <li>📦 
+                <strong>Ingredient inventory</strong> with live updates as items are sold
+            </li>
+            <li>🍔 
+                <strong>Customer orders</strong> linked to menu items and associated ingredient usage
+            </li>
+            <li>📊 
+                <strong>Daily and custom date range reports</strong> showing revenue, cost, and profit  
+            </li>
+            <li>📈 
+                <strong>Interactive visual dashboards</strong> powered by Chart.js (e.g. top-selling items, time-of-day sales trends, and profit breakdowns)
+            </li>
+        </ul>
+        <p>
+            Whether you're managing a bustling kitchen or a concessions counter, this prototype illustrates how Django can streamline your operations with
+            <strong>data-driven insight and real-time inventory control.</strong>
+        </p>
+    </section>
+  
 {% endblock content %}
