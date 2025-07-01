@@ -117,6 +117,10 @@ class SalesReportView(ListView):
         else:
             context['average_order_price'] = Decimal("0.00")
 
+        # create context data for doughnut chart
+        context["revenue_doughnut_labels"] = ["Cost", "Profit"]
+        context["revenue_doughnut_data"] = [float(total_cost), float(total_revenue - total_cost)]
+
         # create menu items sales data list
         menu_item_sales_count = {item.name: 0 for item in MenuItem.objects.all()}  # Initialize all menu items to 0 quantity sold menu item
         for order in orders:

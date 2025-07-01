@@ -1,0 +1,29 @@
+<h3>Lowest Selling Menu Items</h3>
+<canvas id="lowestSellingChart" style="max-width: 600px; max-height: 250px;"></canvas>
+<script>
+    const lowestSellingCtx = document.getElementById('lowestSellingChart').getContext('2d');
+    new Chart(lowestSellingCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ lowest_selling_labels|safe }},
+            datasets: [{
+                label: 'Units Sold',
+                data: {{ lowest_selling_data|safe }},
+                hoverBackgroundColor: 'rgba(194, 16, 16, 0.9)',
+                backgroundColor: 'rgba(194, 16, 16, 0.3)',
+                borderColor: 'rgba(194, 16, 16, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: { precision: 0 }
+                }
+            }
+        }
+    });
+</script>

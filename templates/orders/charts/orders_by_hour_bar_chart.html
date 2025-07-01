@@ -1,0 +1,38 @@
+<h3>Orders by Hour</h3>
+<canvas id="ordersByHourChart" style="max-width: 600px; max-height: 250px;"></canvas>
+
+<script>
+    const hourCtx = document.getElementById('ordersByHourChart').getContext('2d');
+    new Chart(hourCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ order_hour_labels|safe }},
+            datasets: [{
+                label: 'Orders Placed',
+                data: {{ order_hour_data|safe }},
+                hoverBackgroundColor: 'rgba(20, 214, 56, 0.9)',
+                backgroundColor: 'rgba(20, 214, 56, 0.3)',
+                borderColor: 'rgba(20, 214, 56, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Orders'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Hour of Day'
+                    }
+                }
+            },
+            responsive: true
+        }
+    });
+</script>

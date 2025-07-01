@@ -1,0 +1,31 @@
+<h3>Top Selling Menu Items</h3>
+<canvas id="topSellingChart" style="max-width: 600px; max-height: 250px;"></canvas>
+<script>
+    const topSellingCtx = document.getElementById('topSellingChart').getContext('2d');
+    new Chart(topSellingCtx, {
+        type: 'bar',
+        data: {
+            labels: {{ top_selling_labels|safe }},
+            datasets: [{
+                label: 'Units Sold',
+                data: {{ top_selling_data|safe }},
+                hoverBackgroundColor: 'rgba(20, 70, 214, 0.9)',
+                backgroundColor: 'rgba(20, 70, 214, 0.3)',
+                borderColor: 'rgba(20, 70, 214, 1)',
+                borderWidth: 1,
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0  // ensures whole numbers
+                    }
+                }
+            }
+        }
+    });
+</script>

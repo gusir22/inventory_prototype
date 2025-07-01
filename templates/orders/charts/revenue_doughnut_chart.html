@@ -1,0 +1,45 @@
+<h3>Revenue Breakdown</h3>
+<canvas id="revenueChart" style="max-width: 400px; max-height: 200px;"></canvas>
+
+
+<script>
+    const ctxDoughnut = document.getElementById("revenueChart").getContext("2d");
+    const revenueDoughnutChart = new Chart(ctxDoughnut, {
+        type: 'doughnut',
+        data: {
+            labels: {{ revenue_doughnut_labels|safe }},
+            datasets: [{
+                label: "Revenue Breakdown",
+                data: {{ revenue_doughnut_data|safe }},
+                hoverBackgroundColor: [
+                    "rgba(194, 16, 16, 0.9)",  // Cost
+                    "rgba(20, 214, 56, 0.9)",  // Profit
+                ],
+                backgroundColor: [
+                    "rgba(194, 16, 16, 0.7)",  // Cost
+                    "rgba(20, 214, 56, 0.7)",  // Profit
+                ],
+                borderColor: "rgba(255, 255, 255, 1)",
+                borderWidth: 3
+            }]
+        },
+        options: {
+            cutout: "35%",
+            radius: "85%",
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            let value = context.raw.toFixed(2);
+                            return `$${value}`;
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
