@@ -1,0 +1,33 @@
+<h3>Revenue by Day</h3>
+<canvas id="dailyRevenueChart" style="max-width: 600px; max-height: 250px;"></canvas>
+
+<script>
+    const ctx = document.getElementById('dailyRevenueChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ daily_revenue_labels|safe }},
+            datasets: [{
+                label: 'Revenue ($)',
+                data: {{ daily_revenue_data|safe }},
+                pointColor: 'rgba(218, 165, 32, 0.6)',
+                pointHoverBackgroundColor: 'rgba(218, 165, 32, 1)',
+                pointRadius: 6,
+                pointHoverRadius: 8,
+                borderColor: 'rgba(218, 165, 32, 1)',
+                backgroundColor: 'rgba(218, 165, 32, 0.2)',
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { callback: (v) => '$' + v }
+                }
+            }
+        }
+    });
+</script>

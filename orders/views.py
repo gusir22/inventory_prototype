@@ -1,5 +1,5 @@
-from collections import Counter
-from datetime import datetime
+from collections import Counter, defaultdict
+from datetime import datetime, timedelta
 from decimal import Decimal
 
 from django.shortcuts import get_object_or_404
@@ -83,16 +83,27 @@ class SalesReportView(ListView):
     def get_context_data(self, **kwargs):
         """Calculates data context for report using filtered queryset"""
         context = super().get_context_data(**kwargs)
+        
+        # Initialize defaults
+        today = localdate()
+        from_date = make_aware(datetime.combine(today, datetime.min.time()))
+        to_date = make_aware(datetime.combine(today, datetime.max.time()))
+        multi_day_range = False  # init multi-day range flag
 
-        # Add todays date
+        # Override with POSTed values if applicable
         if self.request.method == "POST":
-            from_date = make_aware(datetime.fromisoformat(self.from_date))
-            to_date = make_aware(datetime.fromisoformat(self.to_date))
-            context["from_date"] = from_date
-            if from_date.date() != to_date.date():
-                context["to_date"] = to_date
+            self.from_date = self.request.POST.get("from_date")
+            self.to_date = self.request.POST.get("to_date")
+
+            if self.from_date and self.to_date:
+                from_date = make_aware(datetime.fromisoformat(self.from_date))
+                to_date = make_aware(datetime.fromisoformat(self.to_date))
+                context["from_date"] = from_date
+                if from_date.date() != to_date.date():
+                    context["to_date"] = to_date
+                    multi_day_range = True
         else:
-            context["from_date"] = localdate()
+            context["from_date"] = from_date.date()
 
         # Access the filtered queryset
         orders = self.get_queryset()
@@ -104,10 +115,12 @@ class SalesReportView(ListView):
         # calculate revenue and cost
         total_revenue = 0  # init empty rev total
         total_cost = 0  # init empty cost total
+        revenue_by_day = defaultdict(Decimal)  # init empty revenue by day
 
         for order in orders:
             total_revenue += order.get_order_revenue()
             total_cost += order.get_order_cost()
+            revenue_by_day[order.created_at.date()] += order.get_order_revenue()  # add revenue to revenue_by_day
 
         context['total_revenue'] = total_revenue
         context['total_cost'] = round_money(total_cost)
@@ -155,5 +168,17 @@ class SalesReportView(ListView):
 
         context["order_hour_labels"] = hour_labels
         context["order_hour_data"] = hour_data
+            
+        # Fill in all days in range with 0 if no revenue
+        current_day = from_date.date()
+        while current_day <= to_date.date():
+            revenue_by_day.setdefault(current_day, Decimal("0.00"))
+            current_day += timedelta(days=1)
+
+        # Prepare data for Chart.js
+        sorted_dates = sorted(revenue_by_day.keys())
+        context["multi_day_range"] = multi_day_range  # pass multi-day range flag to template
+        context["daily_revenue_labels"] = [d.strftime("%m/%d") for d in sorted_dates]
+        context["daily_revenue_data"] = [float(revenue_by_day[d]) for d in sorted_dates]
 
         return context
