@@ -128,12 +128,14 @@ class SalesReportView(ListView):
                 menu_item_sales_count[order_item.menu_item.name] += order_item.quantity  # add quantity sold to
 
         # sort for top-selling items
-        top_items = sorted(menu_item_sales_count.items(), key=lambda x: x[1], reverse=True)[:5]  # top 5
+        top_items = sorted(menu_item_sales_count.items(), key=lambda x: x[1], reverse=True)[:3]  # top 3
         context['top_selling_labels'] = [item[0] for item in top_items]
         context['top_selling_data'] = [item[1] for item in top_items]
 
         # Sort for lowest-selling menu items
-        lowest_items = sorted(menu_item_sales_count.items(), key=lambda x: x[1])[:5]  # bottom 5
+        lowest_items = sorted(menu_item_sales_count.items(), key=lambda x: x[1])[:3]  # bottom 3
+        # Reverse to make lowest-selling at the bottom of the chart
+        lowest_items.reverse()
         context['lowest_selling_labels'] = [item[0] for item in lowest_items]
         context['lowest_selling_data'] = [item[1] for item in lowest_items]
 
