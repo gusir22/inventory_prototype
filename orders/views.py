@@ -61,6 +61,8 @@ class SalesReportView(ListView):
     model = Order
     template_name = "orders/sales_report.html"
     context_object_name = "orders"
+    paginate_by = 25
+
 
     def post(self, request, *args, **kwargs):
         # Store submitted dates in session or instance for reuse in get_context_data
@@ -69,16 +71,16 @@ class SalesReportView(ListView):
         return self.get(request, *args, **kwargs)
 
     def get_queryset(self):
-        """Filters orders by today only"""
         if hasattr(self, "from_date") and self.from_date:
-            # convert date times into aware to local time
             from_date = make_aware(datetime.fromisoformat(self.from_date))
             to_date = make_aware(datetime.fromisoformat(self.to_date))
-
-            return Order.objects.filter(created_at__range=(from_date, to_date))
+            return Order.objects.filter(created_at__range=(from_date, to_date))\
+                                .prefetch_related("orderitems__menu_item")
         else:
             today = localdate()
-            return Order.objects.filter(created_at__date=today)
+            return Order.objects.filter(created_at__date=today)\
+                                .prefetch_related("orderitems__menu_item")
+
     
     def get_context_data(self, **kwargs):
         """Calculates data context for report using filtered queryset"""
@@ -116,11 +118,18 @@ class SalesReportView(ListView):
         total_revenue = 0  # init empty rev total
         total_cost = 0  # init empty cost total
         revenue_by_day = defaultdict(Decimal)  # init empty revenue by day
+        menu_item_sales_count = {item.name: 0 for item in MenuItem.objects.all()}  # Initialize all menu items to 0 quantity sold menu item
 
         for order in orders:
-            total_revenue += order.get_order_revenue()
-            total_cost += order.get_order_cost()
-            revenue_by_day[order.created_at.date()] += order.get_order_revenue()  # add revenue to revenue_by_day
+            for order_item in order.orderitems.all():
+                quantity = order_item.quantity
+                menu_item = order_item.menu_item
+                item_revenue = menu_item.price * quantity
+                item_cost = menu_item.get_menu_item_cost()  # ideally cached if needed
+                total_revenue += item_revenue
+                total_cost += item_cost
+                revenue_by_day[order.created_at.date()] += item_revenue
+                menu_item_sales_count[menu_item.name] += quantity
 
         context['total_revenue'] = total_revenue
         context['total_cost'] = round_money(total_cost)
@@ -133,12 +142,6 @@ class SalesReportView(ListView):
         # create context data for doughnut chart
         context["revenue_doughnut_labels"] = ["Cost", "Profit"]
         context["revenue_doughnut_data"] = [float(total_cost), float(total_revenue - total_cost)]
-
-        # create menu items sales data list
-        menu_item_sales_count = {item.name: 0 for item in MenuItem.objects.all()}  # Initialize all menu items to 0 quantity sold menu item
-        for order in orders:
-            for order_item in order.orderitems.all():
-                menu_item_sales_count[order_item.menu_item.name] += order_item.quantity  # add quantity sold to
 
         # sort for top-selling items
         top_items = sorted(menu_item_sales_count.items(), key=lambda x: x[1], reverse=True)[:3]  # top 3
