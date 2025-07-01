@@ -26,11 +26,11 @@
         <p>Average Order Value: ${{ average_order_price }}</p>
     </div>
 
-    {% include "orders/charts/revenue_doughnut_chart.html" %}
-    {% include "orders/charts/sales_ranking_bar_chart.html" %}
-    {% include "orders/charts/orders_by_hour_bar_chart.html" %}
+    {% include "charts/revenue_doughnut_chart.html" %}
+    {% include "charts/sales_ranking_bar_chart.html" %}
+    {% include "charts/orders_by_hour_bar_chart.html" %}
     {% if multi_day_range %}
-        {% include "orders/charts/multi-day-profit-by-day-line-chart.html" %}
+        {% include "charts/multi-day-profit-by-day-line-chart.html" %}
     {% endif %}
 
     <div class="todays-orders">
