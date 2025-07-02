@@ -1,11 +1,18 @@
 {% extends '_base.html' %}
 
 {% block content %}
-    <main>
-        <h1>Thank you for your order!</h1>
+    <section class="container-fluid mt-4" style="max-width: 800px; margin: auto; padding: 2rem;">
+        <h1 class="display-1 text-center">Thank you for your order!</h1>
+        <p class="lead my-4 text-center">We are happy to have you as a valued customer.</p>
         
-        <form action="{% url 'home' %}">
-            <button type="submit">Go Home</button>
-        </form>
-    </main>
+        <div class="d-flex flex-column flex-lg-row justify-content-center gap-3 mt-5">
+            <form action="{% url 'home' %}">
+                <button class="btn btn-primary w-100 shadow" type="submit">Go Home</button>
+            </form>
+            <form action="{% url 'place_order' %}">
+                <button class="btn btn-outline-primary w-100 shadow" type="submit">Place Order</button>
+            </form>
+        </div>
+        
+    </section>
 {% endblock content %}
