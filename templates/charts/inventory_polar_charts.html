@@ -1,83 +1,110 @@
-<h3>Inventory (Grams)</h3>
-<canvas id="gramsChart" style="max-width: 400px; max-height: 400px;"></canvas>
-<script>
-    const gramsCtx = document.getElementById('gramsChart').getContext('2d');
-    new Chart(gramsCtx, {
-        type: 'polarArea',
-        data: {
-            labels: {{ g_labels|safe }},
-            datasets: [{
-                label: 'Grams in Stock',
-                data: {{ g_data|safe }},
-                backgroundColor: [
-                    'rgba(194, 16, 16, 0.7)',
-                    'rgba(218, 165, 32, 0.7)',
-                    'rgba(40, 167, 69, 0.7)',
-                    'rgba(20, 70, 214, 0.7)'
-                ],
-                hoverBackgroundColor: [
-                    'rgba(194, 16, 16, 0.9)',
-                    'rgba(218, 165, 32, 0.9)',
-                    'rgba(40, 167, 69, 0.9)',
-                    'rgba(20, 70, 214, 0.9)'
-                ]
-            }]
-        }
-    });
-</script>
+<div class="col-12 col-lg-4">
+    <div class="card mb-3 mx-3 shadow border-primary">
+        <div class="card-body bg-primary text-white">
+            <h4 class="card-title">Inventory (Grams)</h4>
+        </div>
+        <div class="p-3">
+            <canvas id="gramsChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            <script>
+                const gramsCtx = document.getElementById('gramsChart').getContext('2d');
+                new Chart(gramsCtx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: {{ g_labels|safe }},
+                        datasets: [{
+                            label: 'Grams in Stock',
+                            data: {{ g_data|safe }},
+                            backgroundColor: [
+                                'rgba(194, 16, 16, 0.7)',
+                                'rgba(218, 165, 32, 0.7)',
+                                'rgba(40, 167, 69, 0.7)',
+                                'rgba(20, 70, 214, 0.7)'
+                            ],
+                            hoverBackgroundColor: [
+                                'rgba(194, 16, 16, 0.9)',
+                                'rgba(218, 165, 32, 0.9)',
+                                'rgba(40, 167, 69, 0.9)',
+                                'rgba(20, 70, 214, 0.9)'
+                            ]
+                        }]
+                    }
+                });
+            </script>
+        </div>    
+    </div>
+</div>
 
-<h3>Inventory (Milliliters)</h3>
-<canvas id="mlChart" style="max-width: 400px; max-height: 400px;"></canvas>
-<script>
-    const mlCtx = document.getElementById('mlChart').getContext('2d');
-    new Chart(mlCtx, {
-        type: 'polarArea',
-        data: {
-            labels: {{ ml_labels|safe }},
-            datasets: [{
-                label: 'Milliliters in Stock',
-                data: {{ ml_data|safe }},
-                backgroundColor: [
-                    'rgba(194, 16, 16, 0.7)',
-                    'rgba(218, 165, 32, 0.7)',
-                    'rgba(40, 167, 69, 0.7)',
-                    'rgba(20, 70, 214, 0.7)'
-                ],
-                hoverBackgroundColor: [
-                    'rgba(194, 16, 16, 0.9)',
-                    'rgba(218, 165, 32, 0.9)',
-                    'rgba(40, 167, 69, 0.9)',
-                    'rgba(20, 70, 214, 0.9)'
-                ]
-            }]
-        }
-    });
-</script>
+<div class="col-12 col-lg-4">
+    <div class="card mb-3 mx-3 shadow border-primary">
+        <div class="card-body bg-primary text-white">
+            <h4 class="card-title">Inventory (Milliliters)</h4>
+        </div>
 
-<h3>Inventory (Pieces)</h3>
-<canvas id="piecesChart" style="max-width: 400px; max-height: 400px;"></canvas>
-<script>
-    const piecesCtx = document.getElementById('piecesChart').getContext('2d');
-    new Chart(piecesCtx, {
-        type: 'polarArea',
-        data: {
-            labels: {{ pieces_labels|safe }},
-            datasets: [{
-                label: 'Pieces in Stock',
-                data: {{ pieces_data|safe }},
-                backgroundColor: [
-                    'rgba(194, 16, 16, 0.7)',
-                    'rgba(218, 165, 32, 0.7)',
-                    'rgba(40, 167, 69, 0.7)',
-                    'rgba(20, 70, 214, 0.7)'
-                ],
-                hoverBackgroundColor: [
-                    'rgba(194, 16, 16, 0.9)',
-                    'rgba(218, 165, 32, 0.9)',
-                    'rgba(40, 167, 69, 0.9)',
-                    'rgba(20, 70, 214, 0.9)'
-                ]
-            }]
-        }
-    });
-</script>
+        <div class="p-3">
+            <canvas id="mlChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            <script>
+                const mlCtx = document.getElementById('mlChart').getContext('2d');
+                new Chart(mlCtx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: {{ ml_labels|safe }},
+                        datasets: [{
+                            label: 'Milliliters in Stock',
+                            data: {{ ml_data|safe }},
+                            backgroundColor: [
+                                'rgba(194, 16, 16, 0.7)',
+                                'rgba(218, 165, 32, 0.7)',
+                                'rgba(40, 167, 69, 0.7)',
+                                'rgba(20, 70, 214, 0.7)'
+                            ],
+                            hoverBackgroundColor: [
+                                'rgba(194, 16, 16, 0.9)',
+                                'rgba(218, 165, 32, 0.9)',
+                                'rgba(40, 167, 69, 0.9)',
+                                'rgba(20, 70, 214, 0.9)'
+                            ]
+                        }]
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+<div class="col-12 col-lg-4">
+    <div class="card mb-3 mx-3 shadow border-primary">
+        <div class="card-body bg-primary text-white">
+            <h4 class="card-title">Inventory (Pieces)</h4>
+        </div>
+    
+        <div class="p-3">
+            <canvas id="piecesChart" style="max-width: 400px; max-height: 400px;"></canvas>
+            <script>
+                const piecesCtx = document.getElementById('piecesChart').getContext('2d');
+                new Chart(piecesCtx, {
+                    type: 'polarArea',
+                    data: {
+                        labels: {{ pieces_labels|safe }},
+                        datasets: [{
+                            label: 'Pieces in Stock',
+                            data: {{ pieces_data|safe }},
+                            backgroundColor: [
+                                'rgba(194, 16, 16, 0.7)',
+                                'rgba(218, 165, 32, 0.7)',
+                                'rgba(40, 167, 69, 0.7)',
+                                'rgba(20, 70, 214, 0.7)'
+                            ],
+                            hoverBackgroundColor: [
+                                'rgba(194, 16, 16, 0.9)',
+                                'rgba(218, 165, 32, 0.9)',
+                                'rgba(40, 167, 69, 0.9)',
+                                'rgba(20, 70, 214, 0.9)'
+                            ]
+                        }]
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</div>
+    

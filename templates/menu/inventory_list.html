@@ -3,30 +3,38 @@
 {% block content %}
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <h2>Inventory List</h2>
+    <section class="container-fluid mt-4">
+        <h2 class="display-2 mb-4 text-center">Inventory List</h2>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Item Name</th>
-                <th>Quantity</th>
-                <th>Unit Type</th>
-                <th>Cost/Unit</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for ingredient in ingredients %}
+        <table class="table table-hover table-sm">
+            <caption>Inventory Stock List</caption>
+            <thead class="table-primary">
                 <tr>
-                    <th>{{ forloop.counter }}</th>
-                    <th>{{ ingredient.name }}</th>
-                    <th>{{ ingredient.quantity_in_stock }}</th>
-                    <th>{{ ingredient.unit }}</th>
-                    <th>{{ ingredient.cost }}</th>
+                    <th scope="col">#</th>
+                    <th scope="col">Item Name</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Unit Type</th>
+                    <th scope="col">Cost/Unit</th>
                 </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody class="table-group-divider">
+                {% for ingredient in ingredients %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <th>{{ ingredient.name }}</th>
+                        <th>{{ ingredient.quantity_in_stock }}</th>
+                        <th>{{ ingredient.unit }}</th>
+                        <th>${{ ingredient.cost }}</th>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
 
-    {% include "charts/inventory_polar_charts.html" %}
+    <section class="container-fluid mt-3">
+        <div class="row">
+            {% include "charts/inventory_polar_charts.html" %}
+        </div>
+    </section>
+    
 {% endblock content %}
