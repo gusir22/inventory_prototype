@@ -8,12 +8,12 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
   </head>
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         <header>
             {% include 'navbar.html' %}
         </header>
 
-        <div class="container-lg">
+        <div class="container-lg text-center text-lg-start flex-grow-1">
             <div class="row">
                 <div class="col">
                     {% block content %}
@@ -21,15 +21,18 @@
                 </div>
             </div>
         </div>
-        
 
+        <footer class="bg-primary text-white text-center py-4 mt-5">
+            <div class="container">
+                <p class="mb-1 fw-bold text-uppercase">&copy; 2025 MCG Demo</p>
+                <small class="d-block">Built with Django & Bootstrap 5</small>
+                <small class="d-block">For demo purposes only</small>
+            </div>
+        </footer>
+        
         <!-- Bootstrap cnd js -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.min.js" integrity="sha384-7qAoOXltbVP82dhxHAUje59V5r2YsVfBafyUDxEdApLPmcdhBPg1DKg1ERo0BZlK" crossorigin="anonymous"></script>
 
-    </body>
-    <footer>
-        <hr>
-        &copy; 2025 MCG Demo
-    </footer>
+    </body>     
 </html>
