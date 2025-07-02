@@ -1,0 +1,16 @@
+<div class="card border-primary shadow mb-3 mx-3 " style="height: 100%;">
+    <div class="card-header bg-primary text-white text-center">
+        <h3 class="mb-0">
+            Key Metrics for {{ from_date|date:"n/d/y" }}{% if to_date %} to {{ to_date|date:"n/d/y" }}{% endif %}
+        </h3>
+    </div>
+    <div class="card-body p-3 d-flex justify-content-center align-items-center">
+        <ul class="list-unstyled mb-0 ps-1">
+            <li class="mb-2"><strong>Total Orders:</strong> {{ total_orders }}</li>
+            <li class="mb-2"><strong>Total Revenue:</strong> ${{ total_revenue }}</li>
+            <li class="mb-2"><strong>Total Cost:</strong> ${{ total_cost }}</li>
+            <li class="mb-2"><strong>Total Profit:</strong> ${{ total_profit }}</li>
+            <li><strong>Average Order Value:</strong> ${{ average_order_price }}</li>
+        </ul>
+    </div>
+</div>

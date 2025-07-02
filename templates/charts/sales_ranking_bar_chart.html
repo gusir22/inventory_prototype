@@ -1,45 +1,56 @@
-<h3>Menu Item Sales Comparison</h3>
-<canvas id="combinedSellingChart" style="max-width: 600px; max-height: 400px;"></canvas>
-<script>
-    const combinedCtx = document.getElementById('combinedSellingChart').getContext('2d');
+<div class="card mb-3 mx-3 shadow border-primary" style="height: 100%;">
+    <div class="card-header bg-primary text-white">
+        <h4>Menu Item Sales Comparison</h4>
+    </div>
+    <div class="card-body p-3 d-flex justify-content-center align-items-center">
+        <canvas id="combinedSellingChart" style="max-width: 600px; max-height: 400px;"></canvas>
+        <script>
+            const combinedCtx = document.getElementById('combinedSellingChart').getContext('2d');
 
-    const topSellingLabels = {{ top_selling_labels|safe }};
-    const topSellingData = {{ top_selling_data|safe }};
-    const lowestSellingLabels = {{ lowest_selling_labels|safe }};
-    const lowestSellingData = {{ lowest_selling_data|safe }};
+            const topSellingLabels = {{ top_selling_labels|safe }};
+            const topSellingData = {{ top_selling_data|safe }};
+            const lowestSellingLabels = {{ lowest_selling_labels|safe }};
+            const lowestSellingData = {{ lowest_selling_data|safe }};
 
-    new Chart(combinedCtx, {
-        type: 'bar',
-        data: {
-            labels: [...topSellingLabels, ...lowestSellingLabels],
-            datasets: [
-                {
-                    label: 'Top Sellers',
-                    data: [...topSellingData, ...new Array(lowestSellingLabels.length).fill(0)],
-                    hoverBackgroundColor: 'rgba(20, 70, 214, 0.9)',
-                    backgroundColor: 'rgba(20, 70, 214, 0.7)',
-                    borderColor: 'rgba(20, 70, 214, 1)',
-                    borderWidth: 1
+            new Chart(combinedCtx, {
+                type: 'bar',
+                data: {
+                    labels: [...topSellingLabels, ...lowestSellingLabels],
+                    datasets: [
+                        {
+                            label: 'Top Sellers',
+                            data: [...topSellingData, ...new Array(lowestSellingLabels.length).fill(0)],
+                            hoverBackgroundColor: 'rgba(20, 70, 214, 0.9)',
+                            backgroundColor: 'rgba(20, 70, 214, 0.7)',
+                            borderColor: 'rgba(20, 70, 214, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Low Sellers',
+                            data: [...new Array(topSellingLabels.length).fill(0), ...lowestSellingData],
+                            hoverBackgroundColor: 'rgba(194, 16, 16, 0.9)',
+                            backgroundColor: 'rgba(194, 16, 16, 0.7)',
+                            borderColor: 'rgba(194, 16, 16, 1)',
+                            borderWidth: 1
+                        }
+                    ]
                 },
-                {
-                    label: 'Low Sellers',
-                    data: [...new Array(topSellingLabels.length).fill(0), ...lowestSellingData],
-                    hoverBackgroundColor: 'rgba(194, 16, 16, 0.9)',
-                    backgroundColor: 'rgba(194, 16, 16, 0.7)',
-                    borderColor: 'rgba(194, 16, 16, 1)',
-                    borderWidth: 1
+                options: {
+                    indexAxis: 'y',
+                    responsive: true,
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: { precision: 0 }
+                        }
+                    }
                 }
-            ]
-        },
-        options: {
-            indexAxis: 'y',
-            responsive: true,
-            scales: {
-                x: {
-                    beginAtZero: true,
-                    ticks: { precision: 0 }
-                }
-            }
-        }
-    });
-</script>
+            });
+        </script>
+    </div>
+</div>
+
+
+
+
+

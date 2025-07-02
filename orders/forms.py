@@ -6,7 +6,7 @@ class CustomerOrderItemForm(forms.Form):
     menu_item = forms.ModelChoiceField(
         queryset=MenuItem.objects.all(),
         widget=forms.Select(attrs={
-            'class': 'form-select text-center border-primary',
+            'class': 'form-select text-center border-primary shadow-sm',
             'aria-label': 'Select Menu Item'
         })
     )
@@ -14,7 +14,7 @@ class CustomerOrderItemForm(forms.Form):
         min_value=1, 
         initial=1,
         widget=forms.NumberInput(attrs={
-            'class': 'form-control text-center border-primary mb-3',
+            'class': 'form-control text-center border-primary mb-3 shadow-sm',
             'placeholder': 'Enter quantity'
         })
     )

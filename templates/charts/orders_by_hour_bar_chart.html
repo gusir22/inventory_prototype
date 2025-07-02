@@ -1,38 +1,45 @@
-<h3>Orders by Hour</h3>
-<canvas id="ordersByHourChart" style="max-width: 600px; max-height: 250px;"></canvas>
-
-<script>
-    const hourCtx = document.getElementById('ordersByHourChart').getContext('2d');
-    new Chart(hourCtx, {
-        type: 'bar',
-        data: {
-            labels: {{ order_hour_labels|safe }},
-            datasets: [{
-                label: 'Orders Placed',
-                data: {{ order_hour_data|safe }},
-                hoverBackgroundColor: 'rgba(40, 167, 69, 0.9)',
-                backgroundColor: 'rgba(40, 167, 69, 0.7)',
-                borderColor: 'rgba(40, 167, 69, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    title: {
-                        display: true,
-                        text: 'Orders'
-                    }
+<div class="card mb-3 mx-3 shadow border-primary" style="height: 100%;">
+    <div class="card-header bg-primary text-white">
+        <h4>Orders by Hour</h4>
+    </div>
+    <div class="card-body p-3 d-flex justify-content-center align-items-center">
+        <canvas id="ordersByHourChart" style="max-width: 600px; max-height: 250px;"></canvas>
+        <script>
+            const hourCtx = document.getElementById('ordersByHourChart').getContext('2d');
+            new Chart(hourCtx, {
+                type: 'bar',
+                data: {
+                    labels: {{ order_hour_labels|safe }},
+                    datasets: [{
+                        label: 'Orders Placed',
+                        data: {{ order_hour_data|safe }},
+                        hoverBackgroundColor: 'rgba(40, 167, 69, 0.9)',
+                        backgroundColor: 'rgba(40, 167, 69, 0.7)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 1
+                    }]
                 },
-                x: {
-                    title: {
-                        display: true,
-                        text: 'Hour of Day'
-                    }
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Orders'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Hour of Day'
+                            }
+                        }
+                    },
+                    responsive: true
                 }
-            },
-            responsive: true
-        }
-    });
-</script>
+            });
+        </script>
+    </div>
+</div>
+
+

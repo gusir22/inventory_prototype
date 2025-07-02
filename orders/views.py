@@ -61,8 +61,6 @@ class SalesReportView(ListView):
     model = Order
     template_name = "orders/sales_report.html"
     context_object_name = "orders"
-    paginate_by = 25
-
 
     def post(self, request, *args, **kwargs):
         # Store submitted dates in session or instance for reuse in get_context_data

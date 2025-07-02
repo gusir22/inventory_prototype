@@ -1,46 +1,53 @@
-<h3>Revenue Breakdown</h3>
-<canvas id="revenueChart" style="max-width: 400px; max-height: 200px;"></canvas>
-
-
-<script>
-    const ctxDoughnut = document.getElementById("revenueChart").getContext("2d");
-    const revenueDoughnutChart = new Chart(ctxDoughnut, {
-        type: 'doughnut',
-        data: {
-            labels: {{ revenue_doughnut_labels|safe }},
-            datasets: [{
-                label: "Revenue Breakdown",
-                data: {{ revenue_doughnut_data|safe }},
-                hoverBackgroundColor: [
-                    "rgba(194, 16, 16, 0.9)",  // Cost
-                    "rgba(40, 167, 69, 0.9)",  // Profit
-                ],
-                backgroundColor: [
-                    "rgba(194, 16, 16, 0.7)",  // Cost
-                    "rgba(40, 167, 69, 0.7)",  // Profit
-                ],
-                hoverBorderColor: "rgba(255, 255, 255, 1)",
-                borderColor: "rgba(255, 255, 255, 1)",
-                borderWidth: 3
-            }]
-        },
-        options: {
-            cutout: "35%",
-            radius: "85%",
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
+<div class="card mb-3 mx-3 shadow border-primary" style="height: 100%;">
+    <div class="card-header bg-primary text-white">
+        <h4>Revenue Breakdown</h4>
+    </div>
+    <div class="card-body p-3 d-flex justify-content-center align-items-center">
+        <canvas id="revenueChart" style="max-width: 400px; max-height: 200px;"></canvas>
+        <script>
+            const ctxDoughnut = document.getElementById("revenueChart").getContext("2d");
+            const revenueDoughnutChart = new Chart(ctxDoughnut, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ revenue_doughnut_labels|safe }},
+                    datasets: [{
+                        label: "Revenue Breakdown",
+                        data: {{ revenue_doughnut_data|safe }},
+                        hoverBackgroundColor: [
+                            "rgba(194, 16, 16, 0.9)",  // Cost
+                            "rgba(40, 167, 69, 0.9)",  // Profit
+                        ],
+                        backgroundColor: [
+                            "rgba(194, 16, 16, 0.7)",  // Cost
+                            "rgba(40, 167, 69, 0.7)",  // Profit
+                        ],
+                        hoverBorderColor: "rgba(255, 255, 255, 1)",
+                        borderColor: "rgba(255, 255, 255, 1)",
+                        borderWidth: 3
+                    }]
                 },
-                tooltip: {
-                    callbacks: {
-                        label: function(context) {
-                            let value = context.raw.toFixed(2);
-                            return `$${value}`;
+                options: {
+                    cutout: "35%",
+                    radius: "85%",
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    let value = context.raw.toFixed(2);
+                                    return `$${value}`;
+                                }
+                            }
                         }
                     }
                 }
-            }
-        }
-    });
-</script>
+            });
+        </script>
+    </div>
+</div>  
+
+
+

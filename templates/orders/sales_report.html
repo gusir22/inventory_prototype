@@ -4,38 +4,61 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-    <form action="{% url 'sales_report' %}" method="post">
+    <h2 class="display-2 mt-4 mb-5 text-center">Sales Report</h2>
+
+    <form action="{% url 'sales_report' %}" method="post" class="container my-4">
         {% csrf_token %}
-        <p>Choose Custom Date Range</p>
-        <label for="from_date">From:</label>
-        <input type="datetime-local" id="from_date" name="from_date">
-        <label for="to_date">To:</label>
-        <input type="datetime-local" id="to_date" name="to_date">
-        <button type="submit">Get Report</button>
+        <p class="h5 text-center mb-2">Choose Custom Date Range</p>
+        
+        <div class="row justify-content-center gx-3">
+            <div class="col-md-4">
+                <label class="form-label fst-italic" for="from_date">From:</label>
+                <input class="form-control border-primary shadow" type="datetime-local" id="from_date" name="from_date">
+            </div>
+            <div class="col-md-4">
+                <label class="form-label fst-italic" for="to_date">To:</label>
+                <input class="form-control border-primary shadow" type="datetime-local" id="to_date" name="to_date">
+            </div>
+        </div>
+    
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-outline-primary shadow mb-3">Get Report</button>
+        </div>
     </form>
 
-    <h2>Sales Report for {{ from_date|date:"n/d/y" }} {% if to_date %} to {{ to_date|date:"n/d/y" }}{% endif %}</h2>
-
     <!-- Key Metrics-->
-    <div class="metrics-summary">
-        <h3>Key Metrics</h3>
-        <p>Total Orders: {{ total_orders }}</p>
-        <p>Total Revenue: ${{ total_revenue }}</p>
-        <p>Total Cost: ${{ total_cost }}</p>
-        <p>Total Profit: ${{ total_profit }}</p>
-        <p>Average Order Value: ${{ average_order_price }}</p>
-    </div>
+    <section class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-12 col-lg-6 mb-3">
+                {% include "orders/sales_report_internals/metrics_card.html" %}
+            </div>
+            <div class="col-12 col-lg-6 mb-3">
+                {% include "charts/revenue_doughnut_chart.html" %}
+            </div>
+            <div class="col-12 col-lg-6 mb-3">
+                {% include "charts/sales_ranking_bar_chart.html" %}
+            </div>
+            <div class="col-12 col-lg-6 mb-3">
+                {% include "charts/orders_by_hour_bar_chart.html" %}
+            </div>
+            {% if multi_day_range %}
+                <div class="col-12 col-lg-8 mx-lg-auto mb-3">
+                    {% include "charts/multi-day-profit-by-day-line-chart.html" %}
+                </div>
+            {% endif %}
+        </div>
+        
+        
 
-    {% include "charts/revenue_doughnut_chart.html" %}
-    {% include "charts/sales_ranking_bar_chart.html" %}
-    {% include "charts/orders_by_hour_bar_chart.html" %}
-    {% if multi_day_range %}
-        {% include "charts/multi-day-profit-by-day-line-chart.html" %}
-    {% endif %}
+        
+        
+        
+            
+    </section>
 
     <section class="container-fluid mt-4">
         <h3 class="display-3 mb-3"> Order Ledger</h3>
-        <table class="table table-hover table-sm">
+        <table class="table table-hover table-sm shadow-sm">
             <caption>Report Order List</caption>
             <thead class="table-primary">
                 <tr>
