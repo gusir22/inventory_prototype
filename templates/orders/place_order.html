@@ -8,12 +8,13 @@
 
         <form method="post" class="mt-2">
             {% csrf_token %}
+            {{ formset.management_form }}
 
             <p class="text-wrap mb-5 lead">
                 What would you like to be served?
             </p>
 
-            {% for form in form %}
+            {% for form in formset %}
                 <div class="card mb-3 border-primary text-start mx-auto shadow" style="max-width: 500px;">
                     <div class="card-header bg-primary text-white">
                         <h5 class="fw-light ps-2">Order Item {{ forloop.counter }}</h5>

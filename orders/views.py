@@ -2,7 +2,7 @@ from collections import Counter, defaultdict
 from datetime import datetime, timedelta
 from decimal import Decimal
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic import TemplateView, ListView
 from django.views.generic.edit import FormView
 from django.utils.timezone import make_aware, localdate, localtime
@@ -14,43 +14,49 @@ from .helpers import round_money
 from menu.models import MenuItem, Ingredient
 
 
-class PlaceOrderView(FormView):
+from django.views import View
+from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from .forms import CustomerOrderFormSet
+from .models import Order, OrderItem
+from menu.models import MenuItem, Ingredient
+
+
+class PlaceOrderView(TemplateView):
     template_name = "orders/place_order.html"
-    success_url = reverse_lazy('order_success')
-    form_class = CustomerOrderFormSet  # We'll override get_form
+    
+    def get(self, request, *args, **kwargs):
+        formset = CustomerOrderFormSet()
+        return render(request, self.template_name, {"formset": formset})
 
-    def form_valid(self, formset):
-        # cycle through all menu items and check their IgredientItems to update the Ingredient's quantity_in_stock variable
-
-        order = Order.objects.create()  # create order
+    def post(self, request, *args, **kwargs):
+        
+        formset = CustomerOrderFormSet(request.POST)
+    
+        order = Order.objects.create()
 
         for form in formset:
+            menu_item_id = form.data.get(f'{form.prefix}-menu_item')
+            quantity = form.data.get(f'{form.prefix}-quantity')
 
-            # get form field values from the request
-            menu_item_name = form.cleaned_data.get('menu_item')
-            quantity_ordered = form.cleaned_data.get('quantity')
-
-            # if no menu item was chosen, the field is discarted and we move on to next
-            # iteration of the form-forset loop
-            if not menu_item_name:
+            if not menu_item_id or not quantity:
                 continue
             
             # Get MenuItem instance chosen by menu_item_name value
-            menu_item = get_object_or_404(MenuItem, name=menu_item_name)
+            menu_item = get_object_or_404(MenuItem, id=menu_item_id)
 
-            # Cycle through all ingredients in the MenuItem instance to deduct ingredient from inventory
             for recipe_item in menu_item.recipe_items.all():
-                ingredient = get_object_or_404(Ingredient, name=recipe_item.ingredient)  # access the Ingredient instance
-                ingredient.quantity_in_stock -= recipe_item.quantity_needed * quantity_ordered  # update inventory amount
-                ingredient.save()  # save new inventory amount
+                ingredient = get_object_or_404(Ingredient, name=recipe_item.ingredient)
+                ingredient.quantity_in_stock -= recipe_item.quantity_needed * float(quantity)
+                ingredient.save()
 
             OrderItem.objects.create(
-                order=order, 
-                menu_item=menu_item, 
-                quantity=quantity_ordered
-            )  # create order item
+                order=order,
+                menu_item=menu_item,
+                quantity=quantity
+            )
 
-        return super().form_valid(formset)
+        return redirect(reverse_lazy("order_success"))
 
 
 class OrderSuccessView(TemplateView):

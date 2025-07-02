@@ -7,6 +7,9 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     menu_items = models.ManyToManyField(MenuItem, through='OrderItem')
 
+    class Meta:
+        ordering = ['created_at']  # Newest first
+
     def __str__(self):
         return f"Order #{self.id}"
     
