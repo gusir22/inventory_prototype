@@ -3,8 +3,6 @@
 {% block content %}
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <h2>Sales Report for {{ from_date|date:"n/d/y" }} {% if to_date %} to {{ to_date|date:"n/d/y" }}{% endif %}</h2>
 
     <form action="{% url 'sales_report' %}" method="post">
         {% csrf_token %}
@@ -15,6 +13,8 @@
         <input type="datetime-local" id="to_date" name="to_date">
         <button type="submit">Get Report</button>
     </form>
+
+    <h2>Sales Report for {{ from_date|date:"n/d/y" }} {% if to_date %} to {{ to_date|date:"n/d/y" }}{% endif %}</h2>
 
     <!-- Key Metrics-->
     <div class="metrics-summary">
@@ -33,49 +33,41 @@
         {% include "charts/multi-day-profit-by-day-line-chart.html" %}
     {% endif %}
 
-    <div class="todays-orders">
-        <h3> Order Ledger</h3>
-        <table border="1">
-            <thead>
+    <section class="container-fluid mt-4">
+        <h3 class="display-3 mb-3"> Order Ledger</h3>
+        <table class="table table-hover table-sm">
+            <caption>Report Order List</caption>
+            <thead class="table-primary">
                 <tr>
-                    <th>#</th>
-                    <th>Order Items</th>
-                    <th>Order Revenue</th>
-                    <th>Order Cost</th>
-                    <th>Order Profit</th>
-                    <th>Time Ordered</th>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-end">Order Items</th>
+                    <th scope="col" class="text-center">Order Revenue</th>
+                    <th scope="col" class="text-center">Order Cost</th>
+                    <th scope="col" class="text-center">Order Profit</th>
+                    <th scope="col" class="text-end">Time Ordered</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody class="table-group-divider">
                 
                 {% for order in orders %}
                     <tr>
-                        <th>#{{ forloop.counter }}</th>
+                        <th scope="row" class="text-center align-middle">#{{ forloop.counter }}</th>
                         <th>
-                            <ul>
+                            <ul class="list-unstyled text-end align-middle">
                                 {% for menu_item in order.orderitems.all %}
-                                    <li>{{menu_item.menu_item}} X {{menu_item.quantity}}</li>
+                                    <li class="fst-italic">{{menu_item.menu_item}} X {{menu_item.quantity}}</li>
                                 {% endfor %}
                             </ul>
                         </th>
-                        <th>${{order.get_order_revenue}}</th>
-                        <th>${{order.get_order_cost}}</th>
-                        <th>${{order.get_order_profit}}</th>
-                        <th>{{order.created_at|date:"n/d/y g:i A"}}</th>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <th>-</th>
-                        <th>-</th>
-                        <th>-</th>
-                        <th>-</th>
-                        <th>-</th>
-                        <th>-</th>
+                        <th class="text-center align-middle">${{order.get_order_revenue}}</th>
+                        <th class="text-center align-middle">${{order.get_order_cost}}</th>
+                        <th class="text-center align-middle">${{order.get_order_profit}}</th>
+                        <th class="text-end align-middle">{{order.created_at|date:"n/d/y g:i A"}}</th>
                     </tr>
                 {% endfor %}
                 
             </tbody>
         </table>
-    </div>
+    </section>
 
 {% endblock content %}

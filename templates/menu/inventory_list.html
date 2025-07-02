@@ -10,21 +10,21 @@
             <caption>Inventory Stock List</caption>
             <thead class="table-primary">
                 <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Item Name</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Unit Type</th>
-                    <th scope="col">Cost/Unit</th>
+                    <th scope="col" class="text-center">#</th>
+                    <th scope="col" class="text-end">Item Name</th>
+                    <th scope="col" class="text-center">Quantity</th>
+                    <th scope="col" class="text-center">Unit Type</th>
+                    <th scope="col" class="text-center">Cost/Unit</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">
                 {% for ingredient in ingredients %}
                     <tr>
-                        <th scope="row">{{ forloop.counter }}</th>
-                        <th>{{ ingredient.name }}</th>
-                        <th>{{ ingredient.quantity_in_stock }}</th>
-                        <th>{{ ingredient.unit }}</th>
-                        <th>${{ ingredient.cost }}</th>
+                        <th scope="row" class="text-center">{{ forloop.counter }}</th>
+                        <th class="text-end">{{ ingredient.name }}</th>
+                        <th class="text-center">{{ ingredient.quantity_in_stock }}</th>
+                        <th class="text-center">{{ ingredient.unit }}</th>
+                        <th class="text-center">${{ ingredient.cost }}</th>
                     </tr>
                 {% endfor %}
             </tbody>
