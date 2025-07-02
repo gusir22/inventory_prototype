@@ -12,7 +12,7 @@
         {% csrf_token %}
 
         {% for form in form %}
-            <div class="card mb-3 border-primary text-start mx-auto" style="max-width: 500px;">
+            <div class="card mb-3 border-primary text-start mx-auto shadow" style="max-width: 500px;">
                 <div class="card-header bg-primary text-white">
                     <h5 class="fw-light ps-2">Order Item {{ forloop.counter }}</h5>
                 </div>
