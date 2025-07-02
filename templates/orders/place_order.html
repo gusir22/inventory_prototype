@@ -1,13 +1,37 @@
 {% extends '_base.html' %}
 
 {% block content %}
-    <main>
-        <h2>Place an order!</h1>
-        
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Submit Order</button>
-        </form>
-    </main>
+<section class="container mt-4 text-center">
+    <h2 class="display-5 mb-4">Place an Order</h2>
+
+    <p class="text-wrap mb-5 lead">
+        What would you like to be served?
+    </p>
+
+    <form method="post" class="mt-2">
+        {% csrf_token %}
+
+        {% for form in form %}
+            <div class="card mb-3 border-primary text-start mx-auto" style="max-width: 500px;">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="fw-light ps-2">Order Item {{ forloop.counter }}</h5>
+                </div>
+                
+                <div class="my-3">
+                    {% for field in form %}
+                        <div class="mb-3 px-5">
+                            <label for="{{ field.id_for_label }}" class="form-label fst-italic">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                        </div>
+                    {% endfor %}
+                </div>
+                    
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary btn-lg my-4">Submit Order</button>
+    </form>
+</section>
 {% endblock content %}
